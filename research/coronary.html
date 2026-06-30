@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coronary Research — Imran Ali Shah</title>
+    <meta name="description" content="Coronary stent hemodynamics and wall shear stress analysis from the SHEAR-STENT trial">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:           #05080e;
+            --bg-card:      #0b1018;
+            --bg-surface:   #10161f;
+            --text:         #dde4f0;
+            --text-muted:   #6b7a90;
+            --text-dim:     #364050;
+            --accent:       #4a8ff5;
+            --accent-dim:   rgba(74,143,245,0.12);
+            --warm:         #e07d45;
+            --warm-dim:     rgba(224,125,69,0.12);
+            --border:       rgba(255,255,255,0.06);
+            --border-md:    rgba(255,255,255,0.11);
+        }
+        [data-theme="light"] {
+            --bg:           #f7f5f2;
+            --bg-card:      #eeecea;
+            --bg-surface:   #e5e3e0;
+            --text:         #1a1f2e;
+            --text-muted:   #4a5568;
+            --text-dim:     #9aa3b0;
+            --accent:       #2b6fd4;
+            --accent-dim:   rgba(43,111,212,0.1);
+            --warm:         #c45f1e;
+            --warm-dim:     rgba(196,95,30,0.1);
+            --border:       rgba(0,0,0,0.07);
+            --border-md:    rgba(0,0,0,0.13);
+        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        a { color: inherit; text-decoration: none; }
+
+        #nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 3.5rem; background: rgba(5,8,14,0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); transition: background 0.4s ease; }
+        [data-theme="light"] #nav { background: rgba(247,245,242,0.7); }
+        #nav.scrolled { background: rgba(5,8,14,0.92); }
+        [data-theme="light"] #nav.scrolled { background: rgba(247,245,242,0.95); }
+        .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400; letter-spacing: 0.04em; transition: color 0.2s; }
+        .nav-logo:hover { color: var(--accent); }
+        .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+        .nav-back { display: flex; align-items: center; gap: 0.5rem; font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); transition: color 0.2s; }
+        .nav-back:hover { color: var(--accent); }
+        .nav-back:hover svg { transform: translateX(-3px); }
+        .nav-back svg { transition: transform 0.2s; }
+        .theme-btn { background: none; border: 1px solid var(--border-md); color: var(--text-muted); cursor: pointer; padding: 0.38rem 0.6rem; border-radius: 2px; display: flex; align-items: center; transition: border-color 0.2s, color 0.2s; }
+        .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        #hero { position: relative; height: 70vh; min-height: 480px; display: flex; align-items: flex-end; padding: 0 3.5rem 4.5rem; overflow: hidden; background: var(--bg-surface); }
+        .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(5,8,14,0.5) 0%, rgba(5,8,14,0.05) 35%, rgba(5,8,14,0.05) 55%, rgba(5,8,14,0.9) 80%, rgba(5,8,14,1) 100%); }
+        [data-theme="light"] .hero-overlay { background: linear-gradient(to bottom, rgba(247,245,242,0.45) 0%, rgba(247,245,242,0.05) 35%, rgba(247,245,242,0.05) 55%, rgba(247,245,242,0.88) 82%, rgba(247,245,242,1) 100%); }
+        .hero-content { position: relative; z-index: 2; max-width: 760px; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.69rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; opacity: 0; animation: riseIn 0.8s cubic-bezier(0.22,1,0.36,1) 0.3s forwards; }
+        .hero-badge::before { content: ''; display: block; width: 28px; height: 1px; background: var(--accent); opacity: 0.7; }
+        .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 300; line-height: 1.1; margin-bottom: 1.2rem; opacity: 0; animation: riseIn 0.8s cubic-bezier(0.22,1,0.36,1) 0.45s forwards; }
+        .hero-title em { font-style: italic; color: var(--text-muted); }
+        .hero-sub { font-size: 0.95rem; color: var(--text-muted); max-width: 540px; line-height: 1.75; opacity: 0; animation: riseIn 0.8s cubic-bezier(0.22,1,0.36,1) 0.6s forwards; }
+
+        .page-wrap { max-width: 1100px; margin: 0 auto; padding: 5rem 3.5rem; }
+        .content-grid { display: grid; grid-template-columns: 1fr 300px; gap: 5rem; align-items: start; }
+        .section-label { display: flex; align-items: center; gap: 0.8rem; font-size: 0.69rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+        .section-label::after { content: ''; height: 1px; width: 36px; background: var(--accent); opacity: 0.4; }
+        .content-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; line-height: 1.2; margin-bottom: 1.5rem; }
+        .content-body p { font-size: 0.975rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 1.25rem; }
+        .content-body p:first-of-type { font-size: 1.05rem; color: var(--text); }
+        .content-divider { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+        .video-block { margin: 2.5rem 0; background: var(--bg-surface); border: 1px solid var(--border); overflow: hidden; }
+        .video-block img { width: 100%; display: block; }
+        .video-caption { padding: 0.75rem 1rem; font-size: 0.76rem; color: var(--text-dim); border-top: 1px solid var(--border); font-style: italic; }
+        .methods-list { display: flex; flex-direction: column; gap: 0; margin: 1.5rem 0; }
+        .method-item { display: grid; grid-template-columns: 28px 1fr; gap: 1rem; padding: 1.1rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+        .method-item:first-child { border-top: 1px solid var(--border); }
+        .method-num { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent); padding-top: 0.15rem; }
+        .method-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+        .method-text strong { display: block; font-size: 0.875rem; color: var(--text); font-weight: 500; margin-bottom: 0.2rem; }
+        .sidebar { position: sticky; top: 5rem; }
+        .sidebar-card { background: var(--bg-card); border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1.25rem; }
+        .sidebar-title { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1.1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .tag { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); padding: 0.22rem 0.55rem; }
+        .pub-mini { padding: 0.85rem 0; border-bottom: 1px solid var(--border); }
+        .pub-mini:last-child { border-bottom: none; }
+        .pub-mini-title { font-size: 0.82rem; color: var(--text); line-height: 1.5; margin-bottom: 0.2rem; }
+        .pub-mini-title a:hover { color: var(--accent); }
+        .pub-mini-meta { font-size: 0.72rem; color: var(--text-dim); font-style: italic; }
+        .collab-item { font-size: 0.85rem; color: var(--text-muted); padding: 0.5rem 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+        .collab-item:last-child { border-bottom: none; }
+        .collab-role { font-size: 0.7rem; color: var(--text-dim); display: block; margin-top: 0.1rem; }
+        .other-projects { max-width: 1100px; margin: 0 auto; padding: 3.5rem 3.5rem 5rem; }
+        .other-label { font-size: 0.69rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1.5rem; }
+        .other-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .other-card { background: var(--bg-card); border: 1px solid var(--border); padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: border-color 0.2s, transform 0.25s; }
+        .other-card:hover { border-color: var(--border-md); transform: translateY(-2px); }
+        .other-card-badge { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+        .other-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; }
+        .other-card-arrow { color: var(--text-dim); font-size: 1.2rem; transition: color 0.2s, transform 0.2s; }
+        .other-card:hover .other-card-arrow { color: var(--accent); transform: translateX(4px); }
+        footer { max-width: 1100px; margin: 0 auto; padding: 2rem 3.5rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+        .footer-name { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: var(--text-muted); }
+        .footer-copy { font-size: 0.72rem; color: var(--text-dim); }
+        @keyframes riseIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity:1; transform: translateY(0); }
+        @media (max-width: 900px) {
+            #nav { padding: 0 1.75rem; } #hero { padding: 0 1.75rem 4rem; }
+            .page-wrap { padding: 3.5rem 1.75rem; } .content-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .sidebar { position: static; } .other-projects { padding: 3.5rem 1.75rem 4rem; }
+            .other-grid { grid-template-columns: 1fr; } footer { padding: 2rem 1.75rem; flex-direction: column; gap: 0.75rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="nav">
+    <a href="../index.html" class="nav-logo">Imran Ali Shah</a>
+    <div class="nav-right">
+        <a href="../index.html#research" class="nav-back">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            All Research
+        </a>
+        <button class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+            <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+    </div>
+</nav>
+
+<section id="hero">
+    <img class="hero-img" src="../assets/images/overview.png" alt="Coronary stent hemodynamics">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <p class="hero-badge">Coronary</p>
+        <h1 class="hero-title">Coronary Stent<br><em>Hemodynamics</em></h1>
+        <p class="hero-sub">Investigating the effects of drug-eluting stent platforms on endothelial wall shear stress in patient-specific coronary arteries — from the prospective SHEAR-STENT clinical trial.</p>
+    </div>
+</section>
+
+<div class="page-wrap">
+    <div class="content-grid">
+        <div>
+            <p class="section-label reveal">Overview</p>
+            <div class="content-body">
+                <p class="reveal">
+                    Percutaneous coronary intervention (PCI) with drug-eluting stents (DES) is the most common treatment for obstructive coronary artery disease. Despite excellent acute results, in-stent restenosis and late stent thrombosis remain significant concerns, driven in part by the local hemodynamic environment created by the stent platform.
+                </p>
+                <p class="reveal">
+                    My work on this project focuses on computational fluid dynamics analysis of patient-specific coronary arteries from the SHEAR-STENT clinical trial — a prospective randomized study comparing the Medtronic Resolute and Abbott Xience drug-eluting stent platforms. By reconstructing post-stenting coronary geometries from intravascular imaging and running high-fidelity CFD simulations, we quantify the effect of stent footprint geometry on endothelial wall shear stress (WSS) — a key biomechanical driver of neointimal healing and restenosis.
+                </p>
+            </div>
+
+            <hr class="content-divider">
+
+            <div class="video-block reveal">
+                <img src="../assets/images/overview.png" alt="Coronary stent hemodynamics overview">
+                <p class="video-caption">Overview of computational framework: patient-specific coronary geometry reconstruction from intravascular imaging, CFD mesh generation, and wall shear stress analysis comparing Xience and Resolute stent platforms.</p>
+            </div>
+
+            <hr class="content-divider">
+
+            <p class="section-label reveal">Methodology</p>
+            <h2 class="content-heading reveal">How it works</h2>
+
+            <div class="methods-list reveal">
+                <div class="method-item">
+                    <span class="method-num">01</span>
+                    <div class="method-text">
+                        <strong>Patient-Specific Geometry Reconstruction</strong>
+                        Post-stenting coronary artery geometries are reconstructed from optical coherence tomography (OCT) and intravascular ultrasound (IVUS) imaging using custom segmentation pipelines.
+                    </div>
+                </div>
+                <div class="method-item">
+                    <span class="method-num">02</span>
+                    <div class="method-text">
+                        <strong>Stent Footprint Modeling</strong>
+                        The stent strut geometry for both the Xience and Resolute platforms is incorporated into the coronary lumen model, capturing the local flow disturbances created by each stent design.
+                    </div>
+                </div>
+                <div class="method-item">
+                    <span class="method-num">03</span>
+                    <div class="method-text">
+                        <strong>CFD Simulation & WSS Analysis</strong>
+                        High-fidelity steady and pulsatile CFD simulations are run using Ansys Fluent and FEniCS. Wall shear stress maps are computed and compared across stent platforms and clinical outcomes.
+                    </div>
+                </div>
+                <div class="method-item">
+                    <span class="method-num">04</span>
+                    <div class="method-text">
+                        <strong>Clinical Correlation</strong>
+                        Computational WSS results are correlated with 12-month neointimal healing outcomes from OCT follow-up imaging in the SHEAR-STENT trial, linking biomechanics to clinical endpoints.
+                    </div>
+                </div>
+            </div>
+
+            <hr class="content-divider">
+
+            <p class="section-label reveal">Impact</p>
+            <div class="content-body">
+                <p class="reveal">
+                    This work has resulted in multiple peer-reviewed publications and conference presentations, including papers in Computer Methods and Programs in Biomedicine and Cardiovascular Revascularization Medicine. The findings provide mechanistic insight into how stent platform design affects the local hemodynamic environment — with direct implications for DES selection and future stent design optimization.
+                </p>
+                <p class="reveal">
+                    A related study leveraging ultrafast Doppler intravascular ultrasound for real-time WSS imaging in stented arteries has recently been accepted in Scientific Reports, representing a novel approach to in vivo hemodynamic assessment.
+                </p>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <div class="sidebar-card reveal">
+                <p class="sidebar-title">Keywords</p>
+                <div class="tag-cloud">
+                    <span class="tag">Wall Shear Stress</span>
+                    <span class="tag">PCI</span>
+                    <span class="tag">Drug-Eluting Stents</span>
+                    <span class="tag">Patient-Specific CFD</span>
+                    <span class="tag">Coronary Artery Disease</span>
+                    <span class="tag">OCT</span>
+                    <span class="tag">IVUS</span>
+                    <span class="tag">Neointimal Healing</span>
+                    <span class="tag">Hemodynamics</span>
+                </div>
+            </div>
+
+            <div class="sidebar-card reveal">
+                <p class="sidebar-title">Related Publications</p>
+                <div class="pub-mini">
+                    <p class="pub-mini-title"><a href="https://doi.org/10.1016/j.cmpb.2025.108762" target="_blank">Impact of the Stent Footprint on Endothelial Wall Shear Stress in Patient-Specific Coronary Arteries</a></p>
+                    <p class="pub-mini-meta">Computer Methods & Programs in Biomedicine, 2025</p>
+                </div>
+                <div class="pub-mini">
+                    <p class="pub-mini-title"><a href="https://doi.org/10.1016/j.carrev.2025.11.001" target="_blank">Post-PCI Wall Shear Stress and 12-Month Neointimal Healing: The SHEAR-STENT Study</a></p>
+                    <p class="pub-mini-meta">Cardiovascular Revascularization Medicine, 2025</p>
+                </div>
+                <div class="pub-mini">
+                    <p class="pub-mini-title"><a href="https://doi.org/10.1007/s10554-023-02838-6" target="_blank">Stent Underexpansion is Associated with High Wall Shear Stress</a></p>
+                    <p class="pub-mini-meta">Int. Journal of Cardiovascular Imaging, 2023</p>
+                </div>
+                <div class="pub-mini">
+                    <p class="pub-mini-title">IVUS Wall Shear Stress Imaging in Stented Coronary Arteries with Ultrafast Doppler</p>
+                    <p class="pub-mini-meta">Scientific Reports (Accepted), 2026</p>
+                </div>
+            </div>
+
+            <div class="sidebar-card reveal">
+                <p class="sidebar-title">Clinical Trial</p>
+                <div class="collab-item">
+                    SHEAR-STENT Trial
+                    <span class="collab-role">Prospective randomized study · Emory University Hospital</span>
+                </div>
+            </div>
+
+            <div class="sidebar-card reveal">
+                <p class="sidebar-title">Clinical Collaborators</p>
+                <div class="collab-item">
+                    Habib Samady, MD
+                    <span class="collab-role">Interventional Cardiology · Emory University</span>
+                </div>
+                <div class="collab-item">
+                    David Molony, PhD
+                    <span class="collab-role">Computational Cardiology · Emory University</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<div style="max-width:1100px; margin:0 auto; border-top: 1px solid var(--border);"></div>
+<div class="other-projects">
+    <p class="other-label">Other Research Projects</p>
+    <div class="other-grid">
+        <a href="tavr.html" class="other-card">
+            <div class="other-card-info">
+                <p class="other-card-badge">TAVR</p>
+                <p class="other-card-title">Transcatheter Aortic Valve Replacement</p>
+            </div>
+            <span class="other-card-arrow">→</span>
+        </a>
+        <a href="fontan.html" class="other-card">
+            <div class="other-card-info">
+                <p class="other-card-badge">Fontan</p>
+                <p class="other-card-title">Fontan Surgical Planning</p>
+            </div>
+            <span class="other-card-arrow">→</span>
+        </a>
+    </div>
+</div>
+
+<footer>
+    <span class="footer-name">Imran Ali Shah, PhD</span>
+    <span class="footer-copy">© 2026 · Atlanta, GA</span>
+</footer>
+
+<script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+    const revealObs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } }); }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(saved ? saved : (prefersDark ? 'dark' : 'light'));
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+        const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next); localStorage.setItem('theme', next);
+    });
+    function applyTheme(theme) {
+        if (theme === 'light') { root.setAttribute('data-theme', 'light'); document.getElementById('icon-sun').style.display = 'none'; document.getElementById('icon-moon').style.display = 'block'; }
+        else { root.removeAttribute('data-theme'); document.getElementById('icon-sun').style.display = 'block'; document.getElementById('icon-moon').style.display = 'none'; }
+    }
+</script>
+</body>
+</html>
