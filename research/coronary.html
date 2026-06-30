@@ -137,7 +137,9 @@
 </nav>
 
 <section id="hero">
-    <img class="hero-img" src="../assets/images/overview.png" alt="Coronary stent hemodynamics">
+    <video class="hero-img" autoplay muted loop playsinline>
+        <source src="../assets/videos/fly_through_streamlines.mp4" type="video/mp4">
+    </video>
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <p class="hero-badge">Coronary</p>
@@ -155,15 +157,15 @@
                     Percutaneous coronary intervention (PCI) with drug-eluting stents (DES) is the most common treatment for obstructive coronary artery disease. Despite excellent acute results, in-stent restenosis and late stent thrombosis remain significant concerns, driven in part by the local hemodynamic environment created by the stent platform.
                 </p>
                 <p class="reveal">
-                    My work on this project focuses on computational fluid dynamics analysis of patient-specific coronary arteries from the SHEAR-STENT clinical trial — a prospective randomized study comparing the Medtronic Resolute and Abbott Xience drug-eluting stent platforms. By reconstructing post-stenting coronary geometries from intravascular imaging and running high-fidelity CFD simulations, we quantify the effect of stent footprint geometry on endothelial wall shear stress (WSS) — a key biomechanical driver of neointimal healing and restenosis.
+                    My work on this project focuses on computational fluid dynamics analysis of patient-specific coronary arteries from the SHEAR-STENT clinical trial — a prospective randomized study comparing the Medtronic Resolute and Abbott Xience drug-eluting stent platforms. By reconstructing post-stenting coronary geometries from intravascular imaging and running high-fidelity CFD simulations, we quantify the effect of stent footprint geometry on endothelial wall shear stress (WSS), a key biomechanical driver of neointimal healing and restenosis.
                 </p>
             </div>
 
             <hr class="content-divider">
 
             <div class="video-block reveal">
-                <img src="../assets/images/overview.png" alt="Coronary stent hemodynamics overview">
-                <p class="video-caption">Overview of computational framework: patient-specific coronary geometry reconstruction from intravascular imaging, CFD mesh generation, and wall shear stress analysis comparing Xience and Resolute stent platforms.</p>
+                <img src="../assets/images/figure1.png" alt="Coronary stent hemodynamics overview">
+                <p class="video-caption">Overview of framework: patient-specific coronary geometry reconstruction from intravascular imaging, CFD mesh generation, and wall shear stress analysis comparing Xience and Resolute stent platforms.</p>
             </div>
 
             <hr class="content-divider">
@@ -190,7 +192,7 @@
                     <span class="method-num">03</span>
                     <div class="method-text">
                         <strong>CFD Simulation & WSS Analysis</strong>
-                        High-fidelity steady and pulsatile CFD simulations are run using Ansys Fluent and FEniCS. Wall shear stress maps are computed and compared across stent platforms and clinical outcomes.
+                        High-fidelity steady and pulsatile CFD simulations are run using ANSYS Fluent. Wall shear stress maps are computed and compared across stent platforms and clinical outcomes.
                     </div>
                 </div>
                 <div class="method-item">
@@ -252,14 +254,6 @@
             </div>
 
             <div class="sidebar-card reveal">
-                <p class="sidebar-title">Clinical Trial</p>
-                <div class="collab-item">
-                    SHEAR-STENT Trial
-                    <span class="collab-role">Prospective randomized study · Emory University Hospital</span>
-                </div>
-            </div>
-
-            <div class="sidebar-card reveal">
                 <p class="sidebar-title">Clinical Collaborators</p>
                 <div class="collab-item">
                     Habib Samady, MD
@@ -267,6 +261,10 @@
                 </div>
                 <div class="collab-item">
                     David Molony, PhD
+                    <span class="collab-role">Computational Cardiology · Emory University</span>
+                </div>
+                <div class="collab-item">
+                    Adrien Lefieux, PhD
                     <span class="collab-role">Computational Cardiology · Emory University</span>
                 </div>
             </div>

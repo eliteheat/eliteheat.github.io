@@ -169,7 +169,7 @@
 
 <section id="hero">
     <video class="hero-video" autoplay muted loop playsinline>
-        <source src="../assets/videos/fly_through.mp4" type="video/mp4">
+        <source src="../assets/videos/test2.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -188,7 +188,7 @@
                     The Fontan procedure is a palliative surgery performed in children born with single-ventricle congenital heart defects, creating a total cavopulmonary connection (TCPC) that reroutes deoxygenated blood directly to the lungs. The geometry of the TCPC — how the vessels are connected and positioned — profoundly affects hemodynamic efficiency and long-term outcomes for these patients.
                 </p>
                 <p class="reveal">
-                    My research develops a real-time shape optimization framework for the TCPC using hyper-reduced order models (HROMs) and free-form deformation (FFD). This enables surgeons to virtually explore and optimize surgical configurations for each individual patient before ever entering the operating room.
+                    My research develops a real-time shape optimization framework for the TCPC using hyper-reduced order models (ROMs) and free-form deformation (FFD). This enables surgeons to virtually explore and optimize surgical configurations for each individual patient before ever entering the operating room.
                 </p>
                 <p class="reveal">
                     This work involves active collaboration with pediatric cardiac surgeons and clinicians at Children's Hospital of Atlanta, Children's Hospital of Philadelphia, and Nationwide Children's Hospital.
@@ -199,9 +199,9 @@
 
             <div class="video-block reveal">
                 <video autoplay muted loop playsinline>
-                    <source src="../assets/videos/fly_through.mp4" type="video/mp4">
+                    <source src="../assets/videos/test.mp4" type="video/mp4">
                 </video>
-                <p class="video-caption">Fly-through visualization of patient-specific TCPC geometry reconstructed from MRI/CT imaging, showing hemodynamic flow patterns.</p>
+                <p class="video-caption">Visualization of patient-specific TCPC geometry reconstructed from MRI, showing hemodynamic flow patterns.</p>
             </div>
 
             <hr class="content-divider">
@@ -228,14 +228,14 @@
                     <span class="method-num">03</span>
                     <div class="method-text">
                         <strong>Snapshot Library & Hyper-Reduction</strong>
-                        High-fidelity CFD simulations (FEniCS / FreeFem++) are run across the design space to populate a snapshot library. POD-based reduction and empirical interpolation yield a hyper-reduced model that runs in milliseconds.
+                        High-fidelity CFD simulations (FEniCS) are run across the design space to populate a snapshot library. POD-based reduction and empirical interpolation yield a hyper-reduced model that runs in milliseconds.
                     </div>
                 </div>
                 <div class="method-item">
                     <span class="method-num">04</span>
                     <div class="method-text">
                         <strong>Real-Time Shape Optimization</strong>
-                        The HROM is coupled with a derivative-free optimizer (Py-BOBYQA) to identify the TCPC shape that minimizes hepatic flow distribution (HFD) maldistribution and power loss — key hemodynamic targets for Fontan outcomes.
+                        The ROM is coupled with a derivative-free optimizer (Py-BOBYQA) to identify the TCPC shape that achieves a balanced hepatic flow distribution (HFD) or minimizes total power loss — key hemodynamic targets for Fontan outcomes.
                     </div>
                 </div>
             </div>
@@ -244,7 +244,7 @@
 
             <div class="video-block reveal">
                 <img src="../assets/images/overview.png" alt="Fontan ROM framework overview">
-                <p class="video-caption">Overview of the reduced order modeling framework for accelerated TCPC shape optimization, showing the full pipeline from patient-specific anatomy to optimized surgical configuration.</p>
+                <p class="video-caption">Overview of the ROM framework for accelerated TCPC shape optimization, showing the full pipeline from patient-specific anatomy to optimized surgical configuration.</p>
             </div>
 
             <hr class="content-divider">
@@ -252,10 +252,10 @@
             <p class="section-label reveal">Clinical Impact</p>
             <div class="content-body">
                 <p class="reveal">
-                    Currently, surgical decisions for Fontan patients rely primarily on surgeon experience and intuition. Our framework provides, for the first time, a computationally tractable method for quantitatively optimizing the surgical plan for each individual patient — with results delivered in a clinically actionable timeframe.
+                    Currently, surgical decisions for Fontan patients rely primarily on surgeon experience and intuition. Our framework provides a computationally tractable method for quantitatively optimizing the surgical plan for each individual patient, with results delivered in a clinically actionable timeframe.
                 </p>
                 <p class="reveal">
-                    The framework has been validated against full-order CFD simulations and applied to real patient cases in collaboration with surgeons at three major pediatric cardiac centers. Manuscript preparation is ongoing.
+                    The framework has been validated against full-order CFD simulations and applied to real retrospective patient cases. Manuscript preparation is ongoing.
                 </p>
             </div>
         </div>
@@ -305,13 +305,13 @@
                 </div>
             </div>
 
-            <div class="sidebar-card reveal">
+<!--             <div class="sidebar-card reveal">
                 <p class="sidebar-title">Funding</p>
                 <div class="collab-item">
                     Fontan Circulation Support Device Grant
                     <span class="collab-role">Mechanically Assisted Biventricular Physiology · 2024</span>
                 </div>
-            </div>
+            </div> -->
         </aside>
     </div>
 </div>
